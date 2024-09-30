@@ -1,6 +1,7 @@
 import sys
 import os
 import requests
+import json
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 
 # below is for Veracode US Commercial region. For logins in other region uncomment one of the other lines
@@ -22,6 +23,7 @@ analysis_name = "Project: " + os.environ.get("REPO_NAME") + " - Workflow Number:
 headers = {"User-Agent": "Python HMAC Example"}
 query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name
 spec_file = {'file': open('public/postman_collection.json','rb')}
+dynamic_analysis_config = {'file': open('dynamic-scan.json','rb')}
 
 if __name__ == "__main__":
 
@@ -35,6 +37,23 @@ if __name__ == "__main__":
     if response.ok:
         data = response.json()
         print (data["spec_id"])
+        spec_id = data["spec_id"]
+
+        try:
+            with open(dynamic_analysis_config, 'r') as f:
+                json_data = json.load(f)
+
+            json_data['scans'][0]['scan_configuration_request']['target_url'] = base_url
+            with open(dynamic_analysis_config, 'w') as f:
+                json.dump(json_data, f, indent=2)
+        except requests.RequestException as e:
+            print("Whoops!")
+            print(e)
+            sys.exit(1)
+
+
+
+
         #for app in data["_embedded"]["applications"]:
         #    print(app["profile"]["name"])
     else:

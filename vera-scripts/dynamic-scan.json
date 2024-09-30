@@ -1,0 +1,48 @@
+{
+    "name": "DA job nae",
+    "scans":
+    [
+        {
+            "action_type": "ADD",
+            "request_id": "0",
+            "scan_config_request":
+            {
+                "target_url":
+                {
+                    "url": "target_url"
+                },
+                "auth_configuration": {
+                    "authentications": {
+                       "HEADER": {
+                          "authtype": "HEADER",
+                          "headers": [
+                             {
+                                "key": "Authorization",
+                                "value": "Token <your_token>",
+                                "url": ""
+                             }
+                          ]
+                       }
+                    }
+                 },
+                "api_scan_setting":
+                {
+                    "spec_id": "spec_id"
+                }
+            }
+        }
+    ],
+    "visibility":
+    {
+        "setup_type": "SEC_LEADS_ONLY",
+        "team_identifiers":
+        []
+    },
+  "schedule": {
+    "now": true,
+    "duration": {
+      "length": 1,
+      "unit": "DAY"
+    }
+  }
+}
