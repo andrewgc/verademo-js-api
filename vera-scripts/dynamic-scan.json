@@ -25,13 +25,9 @@
                        }
                     }
                  },
-                "api_scan_setting":
-                {
-                    "spec_id": "spec_id"
-                },
-                "scan_setting": {
+                 "scan_setting": {
                     "blacklist_configuration": {
-                        "blacklist": [
+                        "blackList": [
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/reset",
                              "http_and_https": true,
                              "directory_restriction_type": "FILE"},
@@ -40,6 +36,10 @@
                              "directory_restriction_type": "FILE"}
                         ]
                     }
+                },
+                "api_scan_setting":
+                {
+                    "spec_id": "spec_id"
                 }
             }
         }
