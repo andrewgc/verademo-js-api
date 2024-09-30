@@ -45,6 +45,7 @@ if __name__ == "__main__":
                 print (json_data)
 
             json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
+            json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
             with open(dynamic_analysis_config, 'w') as f:
                 json.dump(json_data, f, indent=2)
                 print (json_data)
