@@ -48,7 +48,7 @@ if __name__ == "__main__":
                 json_data['name'] = analysis_name
                 json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
                 json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
-                json_data['scans'][0]['scan_config_request']['auth_configuration']['authentications']['HEADER']['headers'][0]['value'] = 'Token ' + api_spec_token
+                json_data['scans'][0]['scan_config_request']['auth_configuration']['authentications']['HEADER']['headers'][0]['value'] = 'Token: ' + api_spec_token
 
             #with open(dynamic_analysis_config, 'w') as f:
              #   json.dump(json_data, f, indent=2)

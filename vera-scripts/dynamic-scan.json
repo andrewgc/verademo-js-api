@@ -33,9 +33,11 @@
                     "blacklist_configuration": {
                         "blacklist": [
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/reset",
-                             "http_and_https": true},
+                             "http_and_https": true,
+                             "directory_restriction_type": "FILE"},
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/updateProfile",
-                             "http_and_https": true}
+                             "http_and_https": true,
+                             "directory_restriction_type": "FILE"}
                         ]
                     }
                 }
