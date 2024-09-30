@@ -43,7 +43,7 @@ if __name__ == "__main__":
             with open(dynamic_analysis_config, 'r') as f:
                 json_data = json.load(f)
 
-            json_data['scans'][0]['scan_configuration_request']['target_url'] = base_url
+            json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
             with open(dynamic_analysis_config, 'w') as f:
                 json.dump(json_data, f, indent=2)
         except requests.RequestException as e:
