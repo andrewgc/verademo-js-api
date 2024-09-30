@@ -44,15 +44,10 @@ if __name__ == "__main__":
         try:
             with open(dynamic_analysis_config, 'r') as f:
                 json_data = json.load(f)
-                #print (json_data)
                 json_data['name'] = analysis_name
                 json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
                 json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
                 json_data['scans'][0]['scan_config_request']['auth_configuration']['authentications']['HEADER']['headers'][0]['value'] = 'Token: ' + api_spec_token
-
-            #with open(dynamic_analysis_config, 'w') as f:
-             #   json.dump(json_data, f, indent=2)
-                print (json_data)
                 
                 #Create a new dynamic analysis using the updated config file
                 try:
@@ -66,12 +61,6 @@ if __name__ == "__main__":
             print("Whoops!")
             print(e)
             sys.exit(1)
-
-
-
-
-        #for app in data["_embedded"]["applications"]:
-        #    print(app["profile"]["name"])
     else:
         print(response.status_code)
         print(response.text)

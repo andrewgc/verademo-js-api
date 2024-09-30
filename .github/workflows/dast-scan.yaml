@@ -27,4 +27,4 @@ jobs:
         run: |
           pip install -r vera-scripts/requirements.txt -q
           echo "Completed Installing Required Dependencies. Running DAST Scan setup and initiation..."
-          python vera-scripts/httpie-test.py
+          python vera-scripts/veracode-postman-api-scan.py
