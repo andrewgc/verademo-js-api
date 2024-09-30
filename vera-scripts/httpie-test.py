@@ -23,7 +23,7 @@ analysis_name = "Project: " + os.environ.get("REPO_NAME") + " - Workflow Number:
 headers = {"User-Agent": "Python HMAC Example"}
 query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name
 spec_file = {'file': open('public/postman_collection.json','rb')}
-dynamic_analysis_config = {'file': open('dynamic-scan.json','rb')}
+dynamic_analysis_config = {'file': open('vera-scripts/dynamic-scan.json','rb')}
 
 if __name__ == "__main__":
 
