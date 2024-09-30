@@ -28,6 +28,13 @@
                 "api_scan_setting":
                 {
                     "spec_id": "spec_id"
+                },
+                "scan_settings": {
+                    "blacklist_configuration": {
+                        "black_list": [
+                            {"value": "/users/reset"}
+                        ]
+                    }
                 }
             }
         }
