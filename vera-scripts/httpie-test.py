@@ -28,30 +28,40 @@ api_spec_token = os.getenv("API_SPEC_TOKEN")
 
 if __name__ == "__main__":
 
+    # Upload the latest postman collection spec file
     try:
         response = requests.post(api_base + "/api_specifications", auth=RequestsAuthPluginVeracodeHMAC(), headers=headers, files=spec_file, params=query_params)
     except requests.RequestException as e:
         print("Whoops!")
         print(e)
         sys.exit(1)
-
+    # Retrieve the id of the uploaded spec file
     if response.ok:
         data = response.json()
-        print (data["spec_id"])
         spec_id = data["spec_id"]
 
+        # Update the dynamic analysis config file with the new spec id, job name and auth token
         try:
             with open(dynamic_analysis_config, 'r') as f:
                 json_data = json.load(f)
-                print (json_data)
+                #print (json_data)
                 json_data['name'] = analysis_name
                 json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
                 json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
                 json_data['scans'][0]['scan_config_request']['auth_configuration']['authentications']['HEADER']['headers'][0]['value'] = 'Token ' + api_spec_token
 
-            with open(dynamic_analysis_config, 'w') as f:
-                json.dump(json_data, f, indent=2)
+            #with open(dynamic_analysis_config, 'w') as f:
+             #   json.dump(json_data, f, indent=2)
                 print (json_data)
+                
+                #Create a new dynamic analysis using the updated config file
+                try:
+                    response = requests.post(api_base + "/analyses?scan_type=API_SCAN", auth=RequestsAuthPluginVeracodeHMAC(), headers=headers, json=json_data)
+                    print(response.status_code)
+                except requests.RequestException as e:
+                    print("Whoops!")
+                    print(e)
+                    sys.exit(1)
         except requests.RequestException as e:
             print("Whoops!")
             print(e)
