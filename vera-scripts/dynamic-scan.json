@@ -31,7 +31,7 @@
                 },
                 "scan_settings": {
                     "blacklist_configuration": {
-                        "black_list": [
+                        "blacklist": [
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/reset",
                              "http_and_https": true},
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/updateProfile",
