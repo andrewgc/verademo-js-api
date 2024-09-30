@@ -29,7 +29,7 @@
                 {
                     "spec_id": "spec_id"
                 },
-                "scan_settings": {
+                "scan_setting": {
                     "blacklist_configuration": {
                         "blacklist": [
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/reset",
