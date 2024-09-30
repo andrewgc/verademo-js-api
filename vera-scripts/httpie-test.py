@@ -21,7 +21,7 @@ analysis_name = "Project: " + os.environ.get("REPO_NAME") + " - Workflow Number:
 
 headers = {"User-Agent": "Python HMAC Example"}
 query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name
-spec_file = {'file': open('../public/postman_collection.json','rb')}
+spec_file = {'file': open('public/postman_collection.json','rb')}
 
 if __name__ == "__main__":
 
