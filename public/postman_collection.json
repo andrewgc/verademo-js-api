@@ -569,7 +569,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://verademoapi.ssessions.vuln.sa.veracode.io:8000"
+			"value": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000"
 		},
 		{
 			"key": "token",
