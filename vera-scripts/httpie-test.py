@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     if response.ok:
         data = response.json()
-        print (data)
+        print (data["spec_id"])
         #for app in data["_embedded"]["applications"]:
         #    print(app["profile"]["name"])
     else:
