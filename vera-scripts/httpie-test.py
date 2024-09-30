@@ -24,6 +24,7 @@ headers = {"User-Agent": "Python HMAC Example"}
 query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name
 spec_file = {'file': open('public/postman_collection.json','rb')}
 dynamic_analysis_config = "vera-scripts/dynamic-scan.json"
+api_spec_token = os.getenv("API_SPEC_TOKEN")
 
 if __name__ == "__main__":
 
@@ -43,9 +44,11 @@ if __name__ == "__main__":
             with open(dynamic_analysis_config, 'r') as f:
                 json_data = json.load(f)
                 print (json_data)
+                json_data['name'] = analysis_name
+                json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
+                json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
+                json_data['scans'][0]['scan_config_request']['auth_configuration']['authentications']['HEADER']['headers']['value'] = 'Token ' + api_spec_token
 
-            json_data['scans'][0]['scan_config_request']['target_url']['url'] = base_url
-            json_data['scans'][0]['scan_config_request']['api_scan_setting']['spec_id'] = spec_id
             with open(dynamic_analysis_config, 'w') as f:
                 json.dump(json_data, f, indent=2)
                 print (json_data)
