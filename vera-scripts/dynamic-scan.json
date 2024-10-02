@@ -36,6 +36,9 @@
                              "directory_restriction_type": "FILE"},
                              {
                                 "request_index": 0
+                             },
+                             {
+                                "request_index": 6
                              }
                         ]
                     }
