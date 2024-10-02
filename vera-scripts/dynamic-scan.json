@@ -33,7 +33,10 @@
                              "directory_restriction_type": "FILE"},
                             {"url": "http://verademoapi.aszaryk.vuln.sa.veracode.io:8000/users/updateProfile",
                              "http_and_https": true,
-                             "directory_restriction_type": "FILE"}
+                             "directory_restriction_type": "FILE"},
+                             {
+                                "request_index": 0
+                             }
                         ]
                     }
                 },
