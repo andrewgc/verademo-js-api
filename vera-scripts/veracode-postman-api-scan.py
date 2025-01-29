@@ -21,7 +21,7 @@ spec_name = "Verademo API Specification " + os.getenv("JOB_ID")
 analysis_name = "Project: " + os.environ.get("REPO_NAME") + " - Workflow Number: " + os.environ.get("JOB_ID") #Dynamic Job name will inherit name from GitHub repository values
 
 headers = {"User-Agent": "Python HMAC Example"}
-query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name
+query_params = "custom_base_url=" + base_url + "&spec_name=" + spec_name + "&teams=273855"
 spec_file = {'file': open('public/postman_collection.json','rb')}
 dynamic_analysis_config = "vera-scripts/dynamic-scan.json"
 api_spec_token = os.getenv("API_SPEC_TOKEN")
