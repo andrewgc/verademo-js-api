@@ -12,12 +12,11 @@ jobs:
       name: pipeline scan
       steps:
         - name: checkout repo
-          uses: actions/checkout@v3
-
-        - name: get archive
-          uses: actions/download-artifact@v3
+          uses: actions/checkout@v4
           with:
-            name: veracode-auto-pack-verademo-js-api-js.zip
+            sparse-checkout: |
+              veracode-auto-pack-verademo-js-api-js.zip
+
         - name: pipeline-scan action step
           id: pipeline-scan
           uses: veracode/Veracode-pipeline-scan-action@v1.0.12
