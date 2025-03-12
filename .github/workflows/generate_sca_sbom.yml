@@ -1,0 +1,30 @@
+# This file contains the steps generating a SBOM from an application profile in the Veracode platform
+
+name: veracode-sca-sbom
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  dynamic_analysis_postman_collection:
+    name: Veracode Dynamic Analysis (Postman Collection)
+    env:
+      VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
+      VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+      API_SPEC_TOKEN: ${{ vars.API_SPEC_TOKEN }}
+      REPO_NAME: ${{ github.repository }}
+      JOB_ID: ${{ github.run_number }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            vera-scripts
+            public
+      - name: Setup and Initiate Veracode Dynamic Analysis
+        run: |
+          pip install -r vera-scripts/requirements.txt -q
+          echo "Completed Installing Required Dependencies. Running DAST Scan setup and initiation..."
+          python vera-scripts/veracode-postman-api-scan.py
