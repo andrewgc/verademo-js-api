@@ -6,14 +6,13 @@ on:
   workflow_dispatch:
     
 jobs:
-  dynamic_analysis_postman_collection:
-    name: Veracode Dynamic Analysis (Postman Collection)
+  generate_sca_sbom:
+    name: Veracode SCA SBOM Generation
     env:
       VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
       VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
       API_SPEC_TOKEN: ${{ vars.API_SPEC_TOKEN }}
       REPO_NAME: ${{ github.repository }}
-      JOB_ID: ${{ github.run_number }}
     runs-on: ubuntu-latest
     
     steps:
@@ -22,9 +21,8 @@ jobs:
         with:
           sparse-checkout: |
             vera-scripts
-            public
-      - name: Setup and Initiate Veracode Dynamic Analysis
+      - name: Setup and Run SBOM Script
         run: |
           pip install -r vera-scripts/requirements.txt -q
-          echo "Completed Installing Required Dependencies. Running DAST Scan setup and initiation..."
-          python vera-scripts/veracode-postman-api-scan.py
+          echo "Completed Installing Required Dependencies. Running SBOM Script"
+          python vera-scripts/veracode-generate-sbom.py -a 'Verademo JS API' -t cyclonedx
