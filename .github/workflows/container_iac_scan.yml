@@ -14,12 +14,12 @@ jobs:
         - name: checkout
           uses: actions/checkout@v2
 
-        - name: container-scan action step
+        - name: container-iac action
           id: container-scan
           uses: veracode/container_iac_secrets_scanning@v1.0.1
           with:
-            vid: ${{ secrets.VID }}
-            vkey: ${{ secrets.VKEY }}
+            vid: ${{ secrets.VERACODE_API_ID }}
+            vkey: ${{ secrets.VERACODE_API_KEY }}
             command: "scan" 
             type: "directory"
             source: "./"
