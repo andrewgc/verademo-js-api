@@ -1,0 +1,57 @@
+on:
+  workflow_dispatch:
+#  push:
+#    branches: [feature-123]
+#  pull_request:
+#    branches: [main]
+
+
+
+jobs:
+  veracode-sca-task1:
+    runs-on: ubuntu-latest
+    name: Scan remote repository for Issues 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Veracode SCA
+        env:
+            SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@artifactname
+        with:
+          create-issues: false
+          artifactname: scan1
+          debug: true
+
+  veracode-sca-task2:
+    runs-on: ubuntu-latest
+    name: Scan remote repository for Issues 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Veracode SCA
+        env:
+            SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@artifactname
+        with:
+          create-issues: false
+          artifactname: scan2
+          debug: true
+
+  veracode-sca-task3:
+    runs-on: ubuntu-latest
+    name: Scan remote repository for Issues 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Run Veracode SCA
+        env:
+            SRCCLR_API_TOKEN: ${{ secrets.SRCCLR_API_TOKEN }}
+        uses: veracode/veracode-sca@artifactname
+        with:
+          create-issues: false
+          artifactname: scan3
+          debug: true
