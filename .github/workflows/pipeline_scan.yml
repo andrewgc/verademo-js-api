@@ -8,7 +8,6 @@ jobs:
 
     # Initiate the Pipeline Scan   
   pipeline_scan:
-      needs: build
       runs-on: ubuntu-latest
       name: pipeline scan
       steps:
@@ -20,12 +19,12 @@ jobs:
           with:
             name: veracode-auto-pack-verademo-js-api-js.zip
         - name: pipeline-scan action step
-          id: pipelien-scan
+          id: pipeline-scan
           uses: veracode/Veracode-pipeline-scan-action@v1.0.12
           with:
             vid: ${{ secrets.VERACODE_API_ID }}
             vkey: ${{ secrets.VERACODE_API_KEY }}
             file: "veracode-auto-pack-verademo-js-api-js.zip" 
-            request_policy: "VeraDemo Policy"
+            request_policy: "High and Above and CVSS 7.0+"
             debug: 1
             fail_build: false
