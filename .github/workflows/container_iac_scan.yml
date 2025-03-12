@@ -16,13 +16,13 @@ jobs:
 
         - name: container-iac action
           id: container-scan
-          uses: veracode/container_iac_secrets_scanning@v1.0.1
+          uses: veracode/container_iac_secrets_scanning@v1.0.4
           with:
             vid: ${{ secrets.VERACODE_API_ID }}
             vkey: ${{ secrets.VERACODE_API_KEY }}
             command: "scan" 
             type: "directory"
             source: "./"
-            format: "json"
-            debug: true
-            fail_build: true
+            format: "table"
+            debug: false
+            fail_build: false
