@@ -2,7 +2,6 @@ name: container-iac-scan
 
 on:
   workflow_dispatch:
-    
 
 jobs:
 
@@ -12,11 +11,11 @@ jobs:
 
       steps:
         - name: checkout
-          uses: actions/checkout@v2
+          uses: actions/checkout@v4
 
         - name: container-iac action
           id: container-scan
-          uses: veracode/container_iac_secrets_scanning@v1.0.4
+          uses: veracode/container_iac_secrets_scanning@v1.0.3
           with:
             vid: ${{ secrets.VERACODE_API_ID }}
             vkey: ${{ secrets.VERACODE_API_KEY }}
@@ -26,9 +25,3 @@ jobs:
             format: "json"
             debug: false
             fail_build: false
-
-        - name: container-iac-scan-results
-          uses: actions/upload-artifact@v4 
-          with:
-            name: container-iac-scan-results
-            path: /home/runner/work/verademo-js-api/veracode-cli/Results.zip
