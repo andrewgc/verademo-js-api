@@ -1,13 +1,13 @@
-# This file contains the steps for launching a DAST scan of the API Postman Collection using Veracode's DAST scan action.
+# This file contains the steps for using Veracode's auto packaging workflow
 
-name: veracode-dast-scan
+name: veracode-auto-package
 
 on:
   workflow_dispatch:
     
 jobs:
-  dynamic_analysis_postman_collection:
-    name: Veracode Dynamic Analysis (Postman Collection)
+  auto-package-cli:
+    name: Veracode Autopackage
     env:
       VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
       VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
