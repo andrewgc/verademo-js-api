@@ -24,6 +24,6 @@ jobs:
             vid: ${{ secrets.VERACODE_API_ID }}
             vkey: ${{ secrets.VERACODE_API_KEY }}
             file: "veracode-auto-pack-verademo-js-api-js.zip" 
-            veracode_policy_name: "High and Above and CVSS 7.0+"
+            #veracode_policy_name: "High and Above and CVSS 7.0+"
             #debug: 1
             fail_build: false
