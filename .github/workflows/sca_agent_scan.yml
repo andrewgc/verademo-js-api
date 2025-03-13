@@ -1,3 +1,4 @@
+name: sca-agent-scan
 on:
   workflow_dispatch:
 
