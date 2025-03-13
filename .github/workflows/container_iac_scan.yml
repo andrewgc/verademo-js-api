@@ -31,4 +31,4 @@ jobs:
           uses: actions/upload-artifact@v4 
           with:
             name: container-iac-scan-results
-            path: /home/runner/work/verademo-js-api/veracode-cli/results.json
+            path: /home/runner/work/verademo-js-api/veracode-cli/Results.zip
