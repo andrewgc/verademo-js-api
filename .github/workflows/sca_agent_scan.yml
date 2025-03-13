@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  veracode-sca-task1:
+  veracode-sca:
     runs-on: ubuntu-latest
-    name: SCA agent-scan
+    name: SCA agent scan
 
     steps:
       - name: Checkout
@@ -16,6 +16,5 @@ jobs:
         uses: veracode/veracode-sca@v2.1.12
         with:
           create-issues: false
-          artifactname: scan1
-          debug: true
+          debug: false
 
