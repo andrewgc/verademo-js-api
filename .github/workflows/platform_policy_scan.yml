@@ -25,6 +25,6 @@ jobs:
             version: '${{ github.run_id }}'
             filepath: veracode-auto-pack-verademo-js-api-js.zip
             vid: '${{ secrets.VERACODE_API_ID }}'
-            vkey: '${{ secrets.VERACODE_API_ID }}'
+            vkey: '${{ secrets.VERACODE_API_KEY }}'
             scantimeout: 15
-            deleteincompletescan: true
+            deleteincompletescan: 1
