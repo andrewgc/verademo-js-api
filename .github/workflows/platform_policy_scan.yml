@@ -28,4 +28,3 @@ jobs:
             vkey: '${{ secrets.VERACODE_API_ID }}'
             scantimeout: 15
             deleteincompletescan: true
-            failbuild: false
