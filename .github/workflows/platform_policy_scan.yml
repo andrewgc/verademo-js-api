@@ -1,94 +1,31 @@
+name: Veracode Policy Scan
+
 on:
-#  pull_request:
-#    branches: [main]
   workflow_dispatch:
   
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: 8
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-    - name: Build with Maven
-      run: mvn clean package
-
-    - uses: actions/upload-artifact@v3
-      with:
-        name: verademo.war
-        path: target/verademo.war
 
 
   policy_scan:
-      needs: build
       runs-on: ubuntu-latest
-      name: pipeline scan
+      name: platform policy scan
       steps:
         - name: checkout repo
-          uses: actions/checkout@v3
-        - name: get archive
-          uses: actions/download-artifact@v3
+          uses: actions/checkout@v4
           with:
-            name: verademo.war
-        - name: policye-scan action step
+            sparse-checkout: |
+              veracode-auto-pack-verademo-js-api-js.zip
+        - name: Veracode Policy Upload and Scan
           id: policy-scan
-          uses: veracode/veracode-uploadandscan-action@0.2.6
-          #julz0815/Veracode-pipeline-scan-action@beta-0.29
+          uses: veracode/veracode-uploadandscan-action@0.2.7
           with:
-            appname: github-uploadandscan
-            createprofile: true
-            policy: 'Verademo Policy'
+            appname: 'Verademo JS API'
+            createprofile: false
+            #policy: 'Verademo Policy'
             version: '${{ github.run_id }}'
-            filepath: verademo.war
-            vid: '${{ secrets.VID }}'
-            vkey: '${{ secrets.VKEY }}'
+            filepath: veracode-auto-pack-verademo-js-api-js.zip
+            vid: '${{ secrets.VERACODE_API_ID }}'
+            vkey: '${{ secrets.VERACODE_API_ID }}'
             scantimeout: 15
             deleteincompletescan: true
             failbuild: false
-        - name: get policy flaws
-          run: |
-            cd /tmp
-            export VERACODE_API_KEY_ID=${{ secrets.VERACODE_API_ID }}
-            export VERACODE_API_KEY_SECRET=${{ secrets.VERACODE_API_KEY }}
-            guid=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v1/applications?name=github-uploadandscan" | jq -r '._embedded.applications[0].guid') 
-            echo GUID: ${guid}
-            total_flaws=$(http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC&violates_policy=True" | jq -r '.page.total_elements')
-            echo TOTAL_FLAWS: ${total_flaws}
-            http --auth-type veracode_hmac GET "https://api.veracode.com/appsec/v2/applications/${guid}/findings?scan_type=STATIC&violates_policy=True&size=${total_flaws}" > policy_flaws.json
-  
-        - name: save results file
-          uses: actions/upload-artifact@v3
-          with:
-            name: policy-flaws
-            path: /tmp/policy_flaws.json
-
-  results_to_security_tab:
-    needs: policy_scan
-    runs-on: ubuntu-latest
-    #if: ${{ failure() && inputs.enable_security_report }}
-    if: always()
-    name: Send policy scan report to Security tab
-    steps:
-      - name: Get scan results
-        uses: actions/download-artifact@v3
-        with:
-          name: policy-flaws
-          path: /tmp
-      - name: show folders
-        run: |
-          ls -laR
-      - name: Convert policy scan output to SARIF format
-        id: convert
-        uses: Veracode/veracode-pipeline-scan-results-to-sarif@feature/DXS_254
-        with:
-          scan-type: policy
-          results-json: '/tmp/tmp/policy_flaws.json'
-          output-results-sarif: veracode-results.sarif
-          githubToken: ${{ inputs.token }}

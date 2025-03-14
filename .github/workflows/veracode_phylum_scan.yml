@@ -1,0 +1,7 @@
+name: Veracode Phylum Malicious Package Scan
+on:
+  workflow_dispatch:
+
+jobs:
+  veracode-sca:
+    runs-on: ubuntu-latest
