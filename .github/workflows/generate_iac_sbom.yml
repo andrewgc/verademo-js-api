@@ -1,8 +1,8 @@
+name: container-iac-sbom
+
 on:
   workflow_dispatch:
-#  pull_request:
-#    branches: [main]
-    
+
 
 jobs:
 
@@ -20,9 +20,9 @@ jobs:
           with:
             vid: ${{ secrets.VID }}
             vkey: ${{ secrets.VKEY }}
-            command: "scan" 
+            command: "sbom" 
             type: "directory"
             source: "./"
-            format: "json"
-            debug: true
-            fail_build: true
+            format: "cyclonedx-json"
+            debug: false
+            fail_build: false
