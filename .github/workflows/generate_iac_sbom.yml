@@ -16,10 +16,10 @@ jobs:
 
         - name: container-scan action step
           id: container-scan
-          uses: veracode/container_iac_secrets_scanning@v1.0.1
+          uses: veracode/container_iac_secrets_scanning@v1.0.3
           with:
-            vid: ${{ secrets.VID }}
-            vkey: ${{ secrets.VKEY }}
+            vid: ${{ secrets.VERACODE_API_ID }}
+            vkey: ${{ secrets.VERACODE_API_KEY }}
             command: "sbom" 
             type: "directory"
             source: "./"
