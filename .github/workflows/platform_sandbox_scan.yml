@@ -1,56 +1,30 @@
+name: veracode-sandbox-scan
+
 on:
-#  pull_request:
-#    branches: [main]
   workflow_dispatch:
   
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: 8
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-    - name: Build with Maven
-      run: mvn clean package
-
-    - uses: actions/upload-artifact@v3
-      with:
-        name: verademo.war
-        path: target/verademo.war
-
-
-  sandboxscan_scan:
-      needs: build
+  sandbox_scan:
       runs-on: ubuntu-latest
-      name: pipeline scan
+      name: platform application sandbox scan
       steps:
         - name: checkout repo
-          uses: actions/checkout@v3
-        - name: get archive
-          uses: actions/download-artifact@v3
+          uses: actions/checkout@v4
           with:
-            name: verademo.war
-        - name: policye-scan action step
-          id: policy-scan
-          uses: veracode/uploadandscan-action@sandboxscan
-          #julz0815/Veracode-pipeline-scan-action@beta-0.29
+            sparse-checkout: |
+              veracode-auto-pack-verademo-js-api-js.zip
+        - name: Veracode Sandbox Upload and Scan
+          id: sandbox-scan
+          uses: veracode/veracode-uploadandscan-action@0.2.7
           with:
-            appname: Verademo
-            createprofile: true
-            policy: 'Verademo Policy'
+            appname: 'Verademo JS API'
+            createprofile: false
+            #policy: 'Verademo Policy'
             version: '${{ github.run_id }}'
-            filepath: verademo.war
-            vid: '${{ secrets.VID }}'
-            vkey: '${{ secrets.VKEY }}'
-            scantimeout: 15
-            deleteincompletescan: true
+            filepath: veracode-auto-pack-verademo-js-api-js.zip
+            vid: '${{ secrets.VERACODE_API_ID }}'
+            vkey: '${{ secrets.VERACODE_API_KEY }}'
             #createsandbox: true
-            #sandboxname: 'GitHub App Scans'
-            failbuild: true
+            sandboxname: 'GitHub Sandbox'
+            scantimeout: 15
+            deleteincompletescan: 1
