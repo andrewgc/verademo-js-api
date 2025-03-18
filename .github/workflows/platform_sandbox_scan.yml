@@ -26,5 +26,5 @@ jobs:
             vkey: '${{ secrets.VERACODE_API_KEY }}'
             #createsandbox: true
             sandboxname: 'GitHub Sandbox'
-            scantimeout: 15
+            #scantimeout: 15
             deleteincompletescan: 1
