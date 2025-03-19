@@ -6,16 +6,16 @@ from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
 
-thecreds = APICredentials().renew()
+#thecreds = APICredentials().renew()
 
-api_id = thecreds['api_id']
-api_key = thecreds['api_secret']
+#api_id = thecreds['api_id']
+#api_key = thecreds['api_secret']
 
-print('')
-print('veracode_api_key_id={}'.format(api_id))
-print('veracode_api_key_secret={}'.format(api_key))
-print('')
-print('Please clear your terminal and scrollback buffer once you have copied the credentials!')
+#print('')
+#print('veracode_api_key_id={}'.format(api_id))
+#print('veracode_api_key_secret={}'.format(api_key))
+#print('')
+#print('Please clear your terminal and scrollback buffer once you have copied the credentials!')
 
 #*** Update CI/CD Key store ****
 
