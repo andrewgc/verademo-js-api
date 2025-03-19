@@ -2,6 +2,7 @@ import requests
 import os
 import base64
 import json
+from nacl import encoding, public
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
@@ -56,6 +57,15 @@ def encrypt_secret(public_key, secret_value):
     # In a real implementation, you'd use RSA encryption with a library like PyCryptodome
     return encoded_value
 
+def encrypt(public_key: str, secret_value: str) -> str:
+  """Encrypt a Unicode string using the public key."""
+  public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+  sealed_box = public.SealedBox(public_key)
+  encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+  return base64.b64encode(encrypted).decode("utf-8")
+
+
+
 # Step 3: Update the secret in the GitHub repository
 def update_secret(public_key):
     # Update the API ID First
@@ -80,7 +90,7 @@ def update_secret(public_key):
         print(f"Failed to update API ID: {response.status_code}, {response.text}")
 
     # Now Update the API KEY
-    encrypted_key = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
+    encrypted_key = encrypt(public_key, NEW_SECRET_VALUE_KEY)
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_KEY}"
     headers = {
