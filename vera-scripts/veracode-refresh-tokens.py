@@ -7,10 +7,14 @@ from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
 
-thecreds = APICredentials().renew()
+#thecreds = APICredentials().renew()
 
-api_id = thecreds['api_id']
-api_key = thecreds['api_secret']
+#api_id = thecreds['api_id']
+#api_key = thecreds['api_secret']
+
+api_id = os.getenv("VERACODE_API_KEY_ID")
+api_key = os.getenv("VERACODE_API_KEY_SECRET")
+
 
 #*** Update CI/CD Key store ****
 
