@@ -2,9 +2,6 @@ import requests
 import os
 import base64
 import json
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_v1_5
-from Crypto.Util.Padding import pad
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
