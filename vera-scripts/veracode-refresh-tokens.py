@@ -57,47 +57,39 @@ def encrypt_secret(public_key, secret_value):
 
     # For the purpose of this example, just base64 encode the value. 
     # In a real implementation, you'd use RSA encryption with a library like PyCryptodome
+    print(f"Secret value: {encoded_value}")
     return encoded_value
-
-def encrypt(public_key, secret_value):
-    public_key = RSA.import_key(public_key)
-    cipher = PKCS1_v1_5.new(public_key)
-    secret_bytes = secret_value.encode('utf-8')
-
-    # Pad the secret value to be multiple of block size (typically 128 bytes for RSA)
-    padded_secret = pad(secret_bytes, public_key.size_in_bytes())
-
-    encrypted_secret = cipher.encrypt(padded_secret)
-    print("Encrypted Secret:", encrypted_secret)
-    return base64.b64encode(encrypted_secret).decode('utf-8')
 
 
 
 # Step 3: Update the secret in the GitHub repository
 def update_secret(public_key):
     # Update the API ID First
-    encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_ID)
+    # encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_ID)
 
-    url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_ID}"
-    headers = {
-        "Authorization": f"Bearer {GITHUB_TOKEN}",
-        "Accept": "application/vnd.github.v3+json"
-    }
+    # url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_ID}"
+    # headers = {
+    #     "Authorization": f"Bearer {GITHUB_TOKEN}",
+    #     "Accept": "application/vnd.github.v3+json"
+    # }
 
-    data = {
-        "encrypted_value": encrypted_id,
-        "key_id": public_key['key_id']
-    }
+    # data = {
+    #     "encrypted_value": encrypted_id,
+    #     "key_id": public_key['key_id']
+    # }
 
-    response = requests.put(url, headers=headers, json=data)
+    # response = requests.put(url, headers=headers, json=data)
 
-    if response.status_code == 204:
-        print(f"Successfully updated the API ID: {SECRET_NAME_ID}")
-    else:
-        print(f"Failed to update API ID: {response.status_code}, {response.text}")
+    # if response.status_code == 204:
+    #     print(f"Successfully updated the API ID: {SECRET_NAME_ID}")
+    # else:
+    #     print(f"Failed to update API ID: {response.status_code}, {response.text}")
 
     # Now Update the API KEY
-    encrypted_key = encrypt(public_key, NEW_SECRET_VALUE_KEY)
+    encrypted_key = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
+
+    print(f"Public Key: {public_key}")
+    print(f"ID Key: {NEW_SECRET_VALUE_KEY}")
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_KEY}"
     headers = {
