@@ -59,7 +59,12 @@ def encrypt_secret(public_key, secret_value):
 
 def encrypt(public_key: str, secret_value: str) -> str:
     """Encrypt a Unicode string using the public key."""
-    public_key = base64.b64encode(public_key)
+    #public key is a json object right now 
+        #{
+        #"key_id": "3380204578043523366",
+        #"key": "YPjSNzguwUquO4q+sIzbsGU1UgYxO2xO6kiS2BSdtjU="
+        #}
+    public_key = base64.b64encode(public_key['key'])
     public_key = PublicKey(public_key)
 
     box = Box(nacl.secret.SecretBox.generate().key, public_key)
