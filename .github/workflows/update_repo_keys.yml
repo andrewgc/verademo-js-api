@@ -4,13 +4,23 @@ on:
   workflow_dispatch:
 
 jobs:
-
   update-keys:
-      runs-on: ubuntu-latest
-      steps:
-        - name: checkout repo
-          uses: actions/checkout@v4
-        - name: get keys
-          run: gh secret list
-          env:
-            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    name: Veracode API Key Refresh
+    env:
+      VERACODE_API_KEY_ID: ${{ secrets.VERACODE_API_ID }}
+      VERACODE_API_KEY_SECRET: ${{ secrets.VERACODE_API_KEY }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            vera-scripts
+      - name: Setup and Run Token refresh Script
+        run: |
+          pip install -r vera-scripts/requirements.txt -q
+          echo "Completed Installing Required Dependencies. Running Token Refresh Script"
+          python vera-scripts/veracode-refresh-tokens.py
+
