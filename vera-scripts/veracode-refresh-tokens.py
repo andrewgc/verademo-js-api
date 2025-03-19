@@ -80,7 +80,7 @@ def update_secret(public_key):
         print(f"Failed to update API ID: {response.status_code}, {response.text}")
 
     # Now Update the API KEY
-    encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
+    encrypted_key = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_KEY}"
     headers = {
@@ -89,7 +89,7 @@ def update_secret(public_key):
     }
 
     data = {
-        "encrypted_value": encrypted_id,
+        "encrypted_value": encrypted_key,
         "key_id": public_key['key_id']
     }
 
