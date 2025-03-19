@@ -2,7 +2,7 @@ import requests
 import os
 import base64
 import json
-from pynacl import encoding, public
+from nacl import encoding, public
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
