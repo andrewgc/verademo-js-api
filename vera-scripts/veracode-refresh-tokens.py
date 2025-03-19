@@ -59,12 +59,12 @@ def encrypt_secret(public_key, secret_value):
 
 def encrypt(public_key: str, secret_value: str) -> str:
     """Encrypt a Unicode string using the public key."""
-    public_key = base64.b64decode(public_key)
+    public_key = base64.b64encode(public_key)
     public_key = PublicKey(public_key)
 
     box = Box(nacl.secret.SecretBox.generate().key, public_key)
     encrypted = box.encrypt(secret_value.encode())
-    encrypted_base64 = base64.b64encode(encrypted).decode()
+    encrypted_base64 = base64.b64encode(encrypted).decode("utf-8")
     return encrypted_base64
 
 
