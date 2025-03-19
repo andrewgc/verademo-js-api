@@ -2,7 +2,9 @@ import requests
 import os
 import base64
 import json
-from nacl import encoding, public
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto.Util.Padding import pad
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
@@ -57,12 +59,17 @@ def encrypt_secret(public_key, secret_value):
     # In a real implementation, you'd use RSA encryption with a library like PyCryptodome
     return encoded_value
 
-def encrypt(public_key: str, secret_value: str) -> str:
-  """Encrypt a Unicode string using the public key."""
-  public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-  sealed_box = public.SealedBox(public_key)
-  encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-  return base64.b64encode(encrypted).decode("utf-8")
+def encrypt(public_key, secret_value):
+    public_key = RSA.import_key(public_key)
+    cipher = PKCS1_v1_5.new(public_key)
+    secret_bytes = secret_value.encode('utf-8')
+
+    # Pad the secret value to be multiple of block size (typically 128 bytes for RSA)
+    padded_secret = pad(secret_bytes, public_key.size_in_bytes())
+
+    encrypted_secret = cipher.encrypt(padded_secret)
+    print("Encrypted Secret:", encrypted_secret)
+    return base64.b64encode(encrypted_secret).decode('utf-8')
 
 
 
