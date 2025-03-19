@@ -6,26 +6,28 @@ from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
 
-#thecreds = APICredentials().renew()
+thecreds = APICredentials().renew()
 
-#api_id = thecreds['api_id']
-#api_key = thecreds['api_secret']
+api_id = thecreds['api_id']
+api_key = thecreds['api_secret']
 
-#print('')
-#print('veracode_api_key_id={}'.format(api_id))
-#print('veracode_api_key_secret={}'.format(api_key))
-#print('')
-#print('Please clear your terminal and scrollback buffer once you have copied the credentials!')
+print('')
+print('veracode_api_key_id={}'.format(api_id))
+print('veracode_api_key_secret={}'.format(api_key))
+print('')
+print('Please clear your terminal and scrollback buffer once you have copied the credentials!')
 
 #*** Update CI/CD Key store ****
 
 # Constants
 GITHUB_API_URL = "https://api.github.com"
 GITHUB_TOKEN = os.getenv("GH_TOKEN")  # Replace with your GitHub token
-REPO_OWNER = "aszaryk"  # Replace with the repository owner's username
-REPO_NAME = "verademo-js-api"  # Replace with the repository name
-SECRET_NAME = "VERACODE_UPDATE_TEST"  # Replace with the name of the secret you want to update
-NEW_SECRET_VALUE = "12345"  # Replace with the new secret value
+REPO_OWNER = "aszaryk"  #  repository owner's username
+REPO_NAME = "verademo-js-api"  #  repository name
+SECRET_NAME_ID = "VERACODE_API_ID"  # API ID
+NEW_SECRET_VALUE_ID = api_id  #  new secret value
+SECRET_NAME_KEY = "VERACODE_API_KEY"  # API KEY
+NEW_SECRET_VALUE_KEY = api_key  # new secret value
 
 # Step 1: Get the public key for the repository
 def get_public_key():
@@ -56,25 +58,47 @@ def encrypt_secret(public_key, secret_value):
 
 # Step 3: Update the secret in the GitHub repository
 def update_secret(public_key):
-    encrypted_value = encrypt_secret(public_key, NEW_SECRET_VALUE)
+    # Update the API ID First
+    encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_ID)
 
-    url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME}"
+    url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_ID}"
     headers = {
         "Authorization": f"Bearer {GITHUB_TOKEN}",
         "Accept": "application/vnd.github.v3+json"
     }
 
     data = {
-        "encrypted_value": encrypted_value,
+        "encrypted_value": encrypted_id,
         "key_id": public_key['key_id']
     }
 
     response = requests.put(url, headers=headers, json=data)
 
     if response.status_code == 204:
-        print(f"Successfully updated the secret: {SECRET_NAME}")
+        print(f"Successfully updated the API ID: {SECRET_NAME_ID}")
     else:
-        print(f"Failed to update secret: {response.status_code}, {response.text}")
+        print(f"Failed to update API ID: {response.status_code}, {response.text}")
+
+    # Now Update the API KEY
+    encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
+
+    url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_KEY}"
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+
+    data = {
+        "encrypted_value": encrypted_id,
+        "key_id": public_key['key_id']
+    }
+
+    response = requests.put(url, headers=headers, json=data)
+
+    if response.status_code == 204:
+        print(f"Successfully updated the API KEY: {SECRET_NAME_KEY}")
+    else:
+        print(f"Failed to update API KEY: {response.status_code}, {response.text}")
 
 def main():
     public_key = get_public_key()
