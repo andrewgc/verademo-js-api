@@ -14,12 +14,6 @@ thecreds = APICredentials().renew()
 api_id = thecreds['api_id']
 api_key = thecreds['api_secret']
 
-print('')
-print('veracode_api_key_id={}'.format(api_id))
-print('veracode_api_key_secret={}'.format(api_key))
-print('')
-print('Please clear your terminal and scrollback buffer once you have copied the credentials!')
-
 #*** Update CI/CD Key store ****
 
 # Constants
@@ -67,9 +61,6 @@ def update_secret(public_key):
     # Update the API ID First
     encrypted_id = encrypt_secret(public_key, NEW_SECRET_VALUE_ID)
 
-    print(f"Public Key: {public_key}")
-    print(f"ID Key: {NEW_SECRET_VALUE_ID}")
-    print(f"Encrypted Key: {encrypted_id}")
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_ID}"
     headers = {
@@ -92,9 +83,6 @@ def update_secret(public_key):
     # Now Update the API KEY
     encrypted_key = encrypt_secret(public_key, NEW_SECRET_VALUE_KEY)
 
-    print(f"Public Key: {public_key}")
-    print(f"ID Key: {NEW_SECRET_VALUE_KEY}")
-    print(f"Encrypted Key: {encrypted_key}")
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_KEY}"
     headers = {
