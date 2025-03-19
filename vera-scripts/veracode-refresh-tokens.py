@@ -51,7 +51,6 @@ def encrypt_secret(public_key, secret_value):
 
     # For the purpose of this example, just base64 encode the value. 
     # In a real implementation, you'd use RSA encryption with a library like PyCryptodome
-    print(f"Secret value: {encoded_value}")
     return encoded_value
 
 
