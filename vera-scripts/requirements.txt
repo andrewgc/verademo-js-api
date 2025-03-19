@@ -1,4 +1,4 @@
 veracode_api_py>=0.9.35
 requests>=2.24.0
 veracode-api-signing>=22.3.0
-nacl>=1.4.0
+pynacl>=1.4.0
