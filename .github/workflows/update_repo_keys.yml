@@ -1,0 +1,13 @@
+name: update-repo-keys
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  update-keys:
+      runs-on: ubuntu-latest
+      steps:
+      - run: gh secret list
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
