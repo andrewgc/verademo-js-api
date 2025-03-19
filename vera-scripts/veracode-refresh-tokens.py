@@ -69,7 +69,7 @@ def update_secret(public_key):
 
     print(f"Public Key: {public_key}")
     print(f"ID Key: {NEW_SECRET_VALUE_ID}")
-    print(f"Encrypted Key: {encrypted_key}")
+    print(f"Encrypted Key: {encrypted_id}")
 
     url = f"{GITHUB_API_URL}/repos/{REPO_OWNER}/{REPO_NAME}/actions/secrets/{SECRET_NAME_ID}"
     headers = {
