@@ -4,7 +4,7 @@ import base64
 import json
 import nacl.secret
 import nacl.utils
-from nacl.public import PublicKey, Box, PrivateKey
+from nacl.public import PublicKey, Box, PrivateKey, public, encoding
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
@@ -49,27 +49,24 @@ def get_public_key():
 def encrypt_secret(public_key, secret_value):
     public_key_str = public_key['key']
     key_id = public_key['key_id']
+    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
+    sealed_box = public.SealedBox(public_key)
+    encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+    return base64.b64encode(encrypted).decode("utf-8")
 
-    # Convert secret value to base64 encoding
     encoded_value = base64.b64encode(secret_value.encode('utf-8')).decode('utf-8')
 
-    # For the purpose of this example, just base64 encode the value. 
-    # In a real implementation, you'd use RSA encryption with a library like PyCryptodome
     return encoded_value
 
 def encrypt(public_key: str, secret_value: str) -> str:
-    """Encrypt a Unicode string using the public key."""
-
     public_key = base64.b64decode(public_key['key'])
     public_key = PublicKey(public_key)
-
     #box = Box(nacl.secret.SecretBox.generate().key, public_key)
-    # Generate a temporary private key for encryption
-    temp_private_key = PrivateKey.generate()
-
-    # Create a Box for encryption
-    box = Box(temp_private_key, public_key)
-    encrypted = box.encrypt(secret_value.encode())
+    #temp_private_key = PrivateKey.generate()
+    #box = Box(temp_private_key, public_key)
+    sealed_box = public.SealedBox(public_key)
+    encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
+    #encrypted = box.encrypt(secret_value.encode())
     encrypted_base64 = base64.b64encode(encrypted).decode("utf-8")
     return encrypted_base64
 
