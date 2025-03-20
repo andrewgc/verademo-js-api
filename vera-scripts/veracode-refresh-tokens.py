@@ -4,7 +4,7 @@ import base64
 import json
 import nacl.secret
 import nacl.utils
-from nacl.public import PublicKey, Box, PrivateKey, public, encoding
+from nacl.public import PublicKey, Box, PrivateKey, SealedBox, encoding
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
@@ -64,7 +64,7 @@ def encrypt(public_key: str, secret_value: str) -> str:
     #box = Box(nacl.secret.SecretBox.generate().key, public_key)
     #temp_private_key = PrivateKey.generate()
     #box = Box(temp_private_key, public_key)
-    sealed_box = public.SealedBox(public_key)
+    sealed_box = SealedBox(public_key)
     encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
     #encrypted = box.encrypt(secret_value.encode())
     encrypted_base64 = base64.b64encode(encrypted).decode("utf-8")
