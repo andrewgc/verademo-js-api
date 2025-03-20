@@ -8,12 +8,12 @@ from nacl.public import PublicKey, Box, PrivateKey, SealedBox, encoding
 from veracode_api_signing.plugin_requests import RequestsAuthPluginVeracodeHMAC
 from veracode_api_py import Users, APICredentials
 
-
+#Uncomment the following line to renew the API credentials
 #thecreds = APICredentials().renew()
-
 #api_id = thecreds['api_id']
 #api_key = thecreds['api_secret']
 
+#For now, we will re-use the existing API credentials
 api_id = os.getenv("VERACODE_API_KEY_ID")
 api_key = os.getenv("VERACODE_API_KEY_SECRET")
 
