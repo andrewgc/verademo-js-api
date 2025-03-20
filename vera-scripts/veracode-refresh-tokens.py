@@ -67,7 +67,8 @@ def encrypt(public_key: str, secret_value: str) -> str:
     public_key = base64.b64decode(public_key['key'])
     public_key = PublicKey(public_key)
 
-    box = Box(nacl.secret.SecretBox.generate().key, public_key)
+    #box = Box(nacl.secret.SecretBox.generate().key, public_key)
+    box = nacl.secret.SecretBox(public_key)
     encrypted = box.encrypt(secret_value.encode())
     encrypted_base64 = base64.b64encode(encrypted).decode("utf-8")
     return encrypted_base64
