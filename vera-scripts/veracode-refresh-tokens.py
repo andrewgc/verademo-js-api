@@ -46,27 +46,11 @@ def get_public_key():
         return None
 
 # Step 2: Encrypt the secret using the public key
-def encrypt_secret(public_key, secret_value):
-    public_key_str = public_key['key']
-    key_id = public_key['key_id']
-    public_key = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder())
-    sealed_box = public.SealedBox(public_key)
-    encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-    return base64.b64encode(encrypted).decode("utf-8")
-
-    encoded_value = base64.b64encode(secret_value.encode('utf-8')).decode('utf-8')
-
-    return encoded_value
-
 def encrypt(public_key: str, secret_value: str) -> str:
     public_key = base64.b64decode(public_key['key'])
     public_key = PublicKey(public_key)
-    #box = Box(nacl.secret.SecretBox.generate().key, public_key)
-    #temp_private_key = PrivateKey.generate()
-    #box = Box(temp_private_key, public_key)
     sealed_box = SealedBox(public_key)
     encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
-    #encrypted = box.encrypt(secret_value.encode())
     encrypted_base64 = base64.b64encode(encrypted).decode("utf-8")
     return encrypted_base64
 
