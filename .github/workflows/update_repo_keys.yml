@@ -2,6 +2,8 @@ name: update-repo-keys
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 5 1 *" # Run at 00:00 on the 5th of January every year
 
 jobs:
   update-keys:
